@@ -1,0 +1,27 @@
+{
+  "manifest_version": 2,
+  "name": "marquee-slider-headline",
+  "short_name": "marquee-slider-headline",
+  "description": "marquee-slider-headline",
+  "version": "8.1.1",
+  "permissions": ["activeTab", "tabs", "storage"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.bundle.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "options_page": "options.html",
+  "background": {
+    "page": "background.html"
+  },
+  "icons": {
+    "128": "media/128.png"
+  },
+  "browser_action": {
+    "default_popup": "popup.html"
+  },
+  "web_accessible_resources": ["media/*"],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';"
+}
