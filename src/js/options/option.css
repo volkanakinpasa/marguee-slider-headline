@@ -1,0 +1,52 @@
+.absolute {
+  position: absolute;
+}
+.container {
+  width: 100%;
+}
+.option-item {
+  max-width: 600px;
+}
+.tab-item {
+  width: 600px;
+}
+.w-full {
+  width: 100%;
+}
+
+/* Color */
+.md-color {
+  position: relative;
+  margin: 16px 0;
+  box-sizing: border-box;
+  height: 18px;
+}
+.md-color .input-color-container {
+  position: relative;
+  overflow: hidden;
+  width: 56px;
+  height: 16px;
+  border: solid 1px #d4d4d4;
+  border-radius: 2px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+.md-color input[type='color'] {
+  position: absolute;
+  right: -25px;
+  top: -5px;
+  width: 102px;
+  height: 30px;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+.md-color label div {
+  vertical-align: middle;
+  display: inline;
+  box-sizing: border-box;
+}
+.md-color label {
+  display: inline-block;
+}

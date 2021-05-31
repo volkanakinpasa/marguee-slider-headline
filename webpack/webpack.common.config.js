@@ -22,6 +22,7 @@ const config = {
     content: path.join(__dirname, '..', 'src', 'js', 'content', 'index.ts'),
     popup: path.join(__dirname, '..', 'src', 'js', 'popup', 'index.tsx'),
     options: path.join(__dirname, '..', 'src', 'js', 'options', 'index.tsx'),
+    marquee: path.join(__dirname, '..', 'src', 'js', 'marquee', 'index.tsx'),
   },
   target: 'web',
   output,
@@ -36,6 +37,34 @@ const config = {
           'postcss-loader',
         ],
       },
+      {
+        test: /\.less$/,
+        use: [
+          { loader: 'style-loader', options: { injectType: 'styleTag' } },
+          'css-loader',
+          'postcss-loader',
+          {
+            loader: 'less-loader',
+            options: {
+              lessOptions: {
+                javascriptEnabled: true,
+              },
+            }, // compiles Less to CSS
+          },
+        ],
+      },
+      // use: [
+      //   {
+      //     loader: 'file-loader',
+      //     options: {
+      //       name: 'theme.css',
+      //     },
+      //   },
+      //   {
+      //     loader: 'less-loader',
+      //     options: { javascriptEnabled: true }, // compiles Less to CSS
+      //   },
+      // ],
       {
         test: /\.shadowcss$/,
         exclude: /node_modules/,
@@ -81,11 +110,16 @@ const config = {
       filename: 'background.html',
       chunks: ['background'],
     }),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, '..', 'src', 'html', 'marquee.html'),
+      filename: 'marquee.html',
+      chunks: ['marquee'],
+    }),
     new CopyPlugin({
       patterns: [
         {
           from: 'src/resources',
-          to: 'media',
+          to: '',
         },
         {
           from: 'src/manifest.json',

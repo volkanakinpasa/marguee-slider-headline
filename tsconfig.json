@@ -14,5 +14,9 @@
     "sourceMap": true
   },
   "exclude": ["node_modules"],
-  "include": ["src", "node_modules/axios-middleware/dist"]
+  "include": [
+    "src",
+    "node_modules/axios-middleware/dist",
+    "~antd/dist/antd.less"
+  ]
 }
