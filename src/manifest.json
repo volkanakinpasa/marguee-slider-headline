@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "marquee-slider-headline",
-  "short_name": "marquee-slider-headline",
-  "description": "marquee-slider-headline",
+  "name": "Stock Market Toolbar - Real Time Tracker",
+  "short_name": "Stock Market Toolbar",
+  "description": "Track Any Stock In Real Time Without Needing Another Tab",
   "version": "8.1.1",
   "permissions": ["activeTab", "tabs", "storage"],
   "content_scripts": [
