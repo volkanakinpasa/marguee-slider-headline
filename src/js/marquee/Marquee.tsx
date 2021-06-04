@@ -281,8 +281,8 @@ const Marquee: FC = () => {
   return (
     <>
       {isReady && (
-        <div style={style} className="marqueContainer">
-          <div className="logo">
+        <div style={style} className="finance-slider-marqueContainer">
+          <div className="finance-slider-logo">
             <a
               href="https://www.theimpeccablestocksoftware.com/free-trial"
               target="_blank"
@@ -297,8 +297,12 @@ const Marquee: FC = () => {
           </div>
           {stocks && stocks.length > 0 && (
             <>
-              <div className="arrow">{'<'}</div>
-              <div ref={el} className="marquee" style={styleMarquee}>
+              <div className="finance-slider-arrow">{'<'}</div>
+              <div
+                ref={el}
+                className="finance-slider-marquee"
+                style={styleMarquee}
+              >
                 <div
                   style={{
                     display: 'flex',
@@ -310,7 +314,7 @@ const Marquee: FC = () => {
                   {stocks.map((stock: any, i) => {
                     return (
                       <span
-                        className="ticker"
+                        className="finance-slider-ticker"
                         key={i}
                         style={{ fontFamily: fontName }}
                       >
@@ -322,12 +326,10 @@ const Marquee: FC = () => {
                           }}
                         >
                           <a
-                            className="link"
+                            className="finance-slider-link"
                             href={`https://www.google.com/search?site=finance&tbm=fin&q=${stock.ticker}`}
                             target="_blank"
                             rel="noreferrer"
-                            // onMouseEnter={() => setMove(false)}
-                            // onMouseLeave={() => setMove(true)}
                           >
                             {isFullName
                               ? `${stock.company} (${stock.ticker})`
@@ -365,7 +367,7 @@ const Marquee: FC = () => {
                   })}
                 </div>
               </div>
-              <div className="arrow">{'>'}</div>
+              <div className="finance-slider-arrow">{'>'}</div>
             </>
           )}
         </div>

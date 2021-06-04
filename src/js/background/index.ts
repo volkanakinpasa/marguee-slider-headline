@@ -9,12 +9,6 @@ const messageListener = (message: any, serder: any, callback: any) => {
     case 'refreshContent':
       sendMessageToAllContentScript(message);
       break;
-    case 'pause':
-      sendMessageToActiveContentScript(message);
-      break;
-    case 'resume':
-      sendMessageToActiveContentScript(message);
-      break;
   }
 };
 
