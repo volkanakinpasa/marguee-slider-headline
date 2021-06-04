@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import '../../css/index.css';
 import './option.css';
 import 'antd/dist/antd.less';
@@ -6,8 +6,6 @@ import Marquee from '../marquee/Marquee';
 import {
   SettingTwoTone,
   HighlightTwoTone,
-  CheckOutlined,
-  CloseOutlined,
   DeleteTwoTone,
   VerticalAlignMiddleOutlined,
 } from '@ant-design/icons';
@@ -22,7 +20,10 @@ import {
   Select,
   Slider,
   Checkbox,
-  Button,
+  Row,
+  Col,
+  notification,
+  Typography,
 } from 'antd';
 import {
   SortableContainer,
@@ -32,32 +33,72 @@ import {
 import arrayMove from 'array-move';
 import storageUtils from '../utils/storageUtils';
 
-const { setStorage } = storageUtils;
+const { Title, Text } = Typography;
 
 const Options: FC = () => {
   const [enabled, setEnabled] = useState<boolean>(false);
-  const [lightcolor, setLightcolor] = useState<string>('');
-  const [redcolor, setRedcolor] = useState<string>('');
-  const [greencolor, setGreencolor] = useState<string>('');
-  const [textcolor, setTextcolor] = useState<string>('');
-  const [favoriteStocks, setFavoriteStocks] = useState<string[]>([]);
+  const [lightcolor, setLightcolor] = useState<string>(null);
+  const [redcolor, setRedcolor] = useState<string>(null);
+  const [greencolor, setGreencolor] = useState<string>(null);
+  const [textcolor, setTextcolor] = useState<string>(null);
+  const [favoriteStocks, setFavoriteStocks] = useState<string[]>(null);
+  // const [stockInputValue, setStockInputValue] = useState<string>('');
   const [
     favoriteStocksSearching,
     setFavoriteStocksSearching,
   ] = useState<boolean>(false);
-  const [typeBar, setTypeBar] = useState<string>('');
-  const [allwebsites, setAllwebsites] = useState<string>('');
-  const [selectedWebsites, setSelectedWebsites] = useState<string[]>([]);
-  const [marqueeBehaviour, setMarqueeBehaviour] = useState<string>('');
-  const [marqueeDirection, setMarqueeDirection] = useState<string>('');
+  const [typeBar, setTypeBar] = useState<string>(null);
+  const [allwebsites, setAllwebsites] = useState<string>(null);
+  const [selectedWebsites, setSelectedWebsites] = useState<string[]>(null);
+  const [marqueeBehaviour, setMarqueeBehaviour] = useState<string>(null);
+  const [marqueeDirection, setMarqueeDirection] = useState<string>(null);
   const [marqueeSpeed, setMarqueeSpeed] = useState<number>(null);
-  const [fontName, setFontName] = useState<string>('');
+  const [fontName, setFontName] = useState<string>(null);
   const [fontSize, setFontSize] = useState<number>(null);
   const [dropShadow, setDropShadow] = useState<boolean>(true);
-  const [position, setPosition] = useState<string>('');
+  const [position, setPosition] = useState<string>(null);
   const [isFullName, setIsFullName] = useState<boolean>(false);
-  const [apiUrl, setApiUrl] = useState<string>('');
-  const [apiKey, setApiKey] = useState<string>('');
+  const [apiUrl, setApiUrl] = useState<string>(null);
+  const [apiKey, setApiKey] = useState<string>(null);
+
+  const [websiteInput, setWebsiteInput] = useState<string>(null);
+  const [stockInput, setStockInput] = useState<string>(null);
+  // const [apiKey, setApiKey] = useState<string>(null);
+
+  const refInputStockSearch = useRef(null);
+  const refInputWebsiteSearch = useRef(null);
+
+  const openNotification = (
+    type: string,
+    message: string,
+    description: string,
+    className?: string,
+    style: any = {
+      width: 400,
+    },
+  ) => {
+    const obj = {
+      message,
+      description,
+      className,
+      style,
+    };
+
+    switch (type) {
+      case 'success':
+        notification.success(obj);
+        break;
+      case 'info':
+        notification.info(obj);
+        break;
+      case 'warning':
+        notification.warn(obj);
+        break;
+      case 'error':
+        notification.error(obj);
+        break;
+    }
+  };
 
   const applyMarqueeRealTime = () => {
     chrome.runtime.sendMessage({ type: 'apply' });
@@ -73,9 +114,13 @@ const Options: FC = () => {
         '(\\#[-a-z\\d_]*)?$',
       'i',
     ); // fragment locator
-    return !!pattern.test(str);
+    return pattern.test(str);
   };
 
+  const setStorage = (key: string, value: any, applyInsideMarquee = true) => {
+    storageUtils.setStorage(key, value);
+    if (applyInsideMarquee) applyMarqueeRealTime();
+  };
   const DragHandle = SortableHandle(() => (
     <span style={{ marginRight: '10px' }}>
       <VerticalAlignMiddleOutlined />
@@ -85,17 +130,38 @@ const Options: FC = () => {
   const SortableItem = SortableElement(
     ({ value, sortIndex, onDelete }: any) => (
       <li>
-        <Space direction="horizontal" align="center" style={{ height: '35px' }}>
-          <DragHandle />
-          {value} - #{sortIndex}
-          <button
-            onClick={() => {
-              onDelete();
+        <Row style={{ height: '30px' }}>
+          <Col span={2}>
+            <DragHandle />
+          </Col>
+
+          <Col span={20}>{value}</Col>
+          <Col span={2}>
+            <button
+              onClick={() => {
+                onDelete();
+              }}
+            >
+              <DeleteTwoTone style={{ fontSize: '16px' }} />
+            </button>
+          </Col>
+        </Row>
+        {/* ,
+        <Space
+          direction="horizontal"
+          align="center"
+          style={{ width: '100%', height: '35px' }}
+        >
+          <div
+            style={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'space-between',
             }}
           >
-            <DeleteTwoTone style={{ fontSize: '16px' }} />
-          </button>
-        </Space>
+            <div style={{ width: '100%' }}></div>
+          </div>
+        </Space> */}
       </li>
     ),
   );
@@ -170,7 +236,7 @@ const Options: FC = () => {
         <Divider orientation="left">Example</Divider>
         <iframe
           scrolling="no"
-          style={{ width: '100%', height: '30px', border: 'none' }}
+          style={{ width: '600px', height: '40px', border: 'none' }}
           src={chrome.runtime.getURL('marquee.html')}
         />
       </div>
@@ -183,12 +249,10 @@ const Options: FC = () => {
         <Divider orientation="left">Enable/Disable Extension</Divider>
         <div>
           <Switch
-            // checkedChildren={<CheckOutlined />}
-            // unCheckedChildren={<CloseOutlined />}
             checked={enabled}
             onClick={(checked: boolean) => {
-              setStorage('enabled', checked);
               setEnabled(checked);
+              setStorage('enabled', checked, false);
               refreshContent();
             }}
           />
@@ -220,7 +284,7 @@ const Options: FC = () => {
               type="color"
               className="color"
               list="datalightcolor"
-              value={lightcolor}
+              value={lightcolor ? lightcolor : ''}
               onChange={(e) => {
                 setLightcolor(e.target.value);
                 setStorage('lightcolor', e.target.value);
@@ -242,7 +306,7 @@ const Options: FC = () => {
               type="color"
               className="color"
               list="datalightcolor"
-              value={redcolor}
+              value={redcolor ? redcolor : ''}
               onChange={(e) => {
                 setRedcolor(e.target.value);
                 setStorage('redcolor', e.target.value);
@@ -262,7 +326,7 @@ const Options: FC = () => {
               type="color"
               className="color"
               list="datalightcolor"
-              value={greencolor}
+              value={greencolor ? greencolor : ''}
               onChange={(e) => {
                 setGreencolor(e.target.value);
                 setStorage('greencolor', e.target.value);
@@ -284,7 +348,7 @@ const Options: FC = () => {
               type="color"
               className="color"
               list="datalightcolor"
-              value={textcolor}
+              value={textcolor ? textcolor : ''}
               onChange={(e) => {
                 setTextcolor(e.target.value);
                 setStorage('textcolor', e.target.value);
@@ -312,19 +376,32 @@ const Options: FC = () => {
             <div>Stocks</div>
             <div>
               <Search
-                placeholder="enter stock name and press add"
+                value={stockInput}
+                placeholder="Enter the ticker symbol of a stock"
                 allowClear
                 enterButton="Add"
                 loading={favoriteStocksSearching}
                 onSearch={(value) => {
+                  setStockInput('');
                   if (!value) return;
-
+                  value = value.toUpperCase();
+                  const stocks = favoriteStocks ? [...favoriteStocks] : [];
+                  if (stocks && stocks.length >= 20) {
+                    openNotification(
+                      'error',
+                      '20 stocks maximum',
+                      'Sorry, but we only support 20 stocks at this time.',
+                    );
+                    return;
+                  }
                   setFavoriteStocksSearching(true);
-                  const stocks = [...favoriteStocks];
 
                   if (stocks.includes(value)) {
-                    alert(`${value} already exists`);
+                    openNotification('error', `${value} already exists!`, '');
                     setFavoriteStocksSearching(false);
+
+                    (refInputStockSearch.current as any).input.value = '';
+
                     return;
                   }
                   fetch(`${apiUrl}/stock/${value}/verify?apikey=${apiKey}`, {
@@ -340,50 +417,78 @@ const Options: FC = () => {
                         stocks.push(value);
                         setFavoriteStocks(stocks);
                         setStorage('favoritestocks', stocks);
+                        openNotification('success', `${value} added!`, '');
                       } else {
-                        alert(data.message);
+                        openNotification('error', 'Error!', data.message);
                       }
                     })
                     .catch((error) => {
-                      console.error('Error:', error);
+                      console.error(error);
+                      openNotification(
+                        'error',
+                        'Error!',
+                        'Something went wrong while adding the ticker.',
+                      );
                     })
                     .finally(() => {
                       setFavoriteStocksSearching(false);
-                      value = '';
                     });
                 }}
+                onInput={(e: any) =>
+                  setStockInput(('' + e.target.value).toUpperCase())
+                }
                 style={{ width: 400 }}
               />
             </div>
           </Space>
-
-          <CustomSortableContainer
-            // items={favoriteStocks ? favoriteStocks : []}
-            onSortEnd={({ oldIndex, newIndex }: any) => {
-              const itemsUpdated: any = arrayMove(
-                favoriteStocks,
-                oldIndex,
-                newIndex,
-              );
-              setFavoriteStocks(itemsUpdated);
-              setStorage('favoritestocks', itemsUpdated);
-            }}
-            useDragHandle
-          >
-            {favoriteStocks.map((value, index) => (
-              <SortableItem
-                key={`item-${value}`}
-                index={index}
-                value={value}
-                sortIndex={index}
-                onDelete={() => {
-                  const tempData = favoriteStocks.filter((e) => e !== value);
-                  setFavoriteStocks(tempData);
-                  setStorage('favoritestocks', tempData);
-                }}
-              />
-            ))}
-          </CustomSortableContainer>
+          <div className="option-item-small">
+            <CustomSortableContainer
+              onSortEnd={({ oldIndex, newIndex }: any) => {
+                const itemsUpdated: any = arrayMove(
+                  favoriteStocks,
+                  oldIndex,
+                  newIndex,
+                );
+                setFavoriteStocks(itemsUpdated);
+                setStorage('favoritestocks', itemsUpdated);
+              }}
+              useDragHandle
+            >
+              {favoriteStocks &&
+                favoriteStocks.length > 0 &&
+                favoriteStocks.map((value, index) => (
+                  <SortableItem
+                    key={`stock-item-${value}`}
+                    index={index}
+                    value={value}
+                    sortIndex={index}
+                    onDelete={() => {
+                      const tempData = favoriteStocks.filter(
+                        (e) => e !== value,
+                      );
+                      setFavoriteStocks(tempData);
+                      setStorage('favoritestocks', tempData);
+                    }}
+                  />
+                ))}
+            </CustomSortableContainer>
+          </div>
+          <div className="option-item-large text-xs">
+            <Text type="secondary">
+              We support most US stocks, please type in the ticker above to add
+              it to the list. <br />
+              We also support a few international markets: TSX, TSX Venture
+              (TSXV), LSE, NSE, BSE, and Hong Kong (HK). In order to access
+              international markets, you must include their exchange symbol
+              first.
+              <br />
+              Ex) AAPL - for apple
+              <br />
+              SPY - for S&P 500
+              <br />
+              TSX:SHOP - for Shopify on the TSX exchange
+            </Text>
+          </div>
         </Space>
       </div>
     );
@@ -416,7 +521,8 @@ const Options: FC = () => {
             <Radio.Group
               onChange={(e) => {
                 setAllwebsites(e.target.value);
-                setStorage('allwebsites', e.target.value);
+                setStorage('allwebsites', e.target.value, false);
+                refreshContent();
               }}
               value={allwebsites}
             >
@@ -432,23 +538,36 @@ const Options: FC = () => {
             <div>Website</div>
             <div>
               <Search
-                placeholder="enter website address and press add"
+                value={websiteInput}
+                placeholder="Enter a website address and press add"
                 allowClear
                 enterButton="Add"
+                onInput={(e: any) => {
+                  setWebsiteInput(e.target.value);
+                }}
                 onSearch={(value) => {
                   if (!value) return;
 
-                  if (!validURL(value)) alert('please enter a valid url');
+                  if (!validURL(value)) {
+                    openNotification('error', 'Please enter a valid url', '');
+                    setWebsiteInput('');
+                    return;
+                  }
 
-                  const websites = [...selectedWebsites];
+                  const websites = selectedWebsites
+                    ? [...selectedWebsites]
+                    : [];
                   if (websites.includes(value)) {
-                    alert(`${value} already exists`);
+                    openNotification('error', `${value} already exists!`, '');
+                    setWebsiteInput('');
                     return;
                   }
 
                   websites.push(value);
                   setSelectedWebsites(websites);
-                  setStorage('selectedwebsites', websites);
+                  setStorage('selectedwebsites', websites, false);
+                  refreshContent();
+                  setWebsiteInput('');
                 }}
                 style={{ width: 400 }}
                 disabled={allwebsites !== 'selected'}
@@ -468,19 +587,24 @@ const Options: FC = () => {
             }}
             useDragHandle
           >
-            {selectedWebsites.map((value, index) => (
-              <SortableItem
-                key={`item-${value}`}
-                index={index}
-                value={value}
-                sortIndex={index}
-                onDelete={() => {
-                  const tempData = selectedWebsites.filter((e) => e !== value);
-                  setSelectedWebsites(tempData);
-                  setStorage('selectedwebsites', tempData);
-                }}
-              />
-            ))}
+            {selectedWebsites &&
+              selectedWebsites.length > 0 &&
+              selectedWebsites.map((value, index) => (
+                <SortableItem
+                  key={`website-item-${value}`}
+                  index={index}
+                  value={value}
+                  sortIndex={index}
+                  onDelete={() => {
+                    const tempData = selectedWebsites.filter(
+                      (e) => e !== value,
+                    );
+                    setSelectedWebsites(tempData);
+                    setStorage('selectedwebsites', tempData, false);
+                    refreshContent();
+                  }}
+                />
+              ))}
           </CustomSortableContainer>
         </Space>
       </div>
@@ -536,12 +660,14 @@ const Options: FC = () => {
                   value={marqueeSpeed}
                   onChange={(value: number) => {
                     setMarqueeSpeed(value);
+                  }}
+                  onAfterChange={(value: number) => {
                     setStorage('marqueespeed', value);
                   }}
                   min={0}
                   max={10}
                   defaultValue={3}
-                  marks={{ 1: '1', 3: '3', '7': '7' }}
+                  marks={{ 1: '1', 3: '3', 5: 5, '7': '7' }}
                   style={{ width: 300 }}
                 />
                 {`${marqueeSpeed}`}
@@ -596,6 +722,8 @@ const Options: FC = () => {
                   value={fontSize}
                   onChange={(value: number) => {
                     setFontSize(value);
+                  }}
+                  onAfterChange={(value: number) => {
                     setStorage('fontsize', value);
                   }}
                   style={{ width: 300 }}
@@ -618,7 +746,8 @@ const Options: FC = () => {
           checked={dropShadow}
           onChange={(e) => {
             setDropShadow(e.target.checked);
-            setStorage('dropshadow', e.target.checked);
+            setStorage('dropshadow', e.target.checked, false);
+            refreshContent();
           }}
         >
           Shadow effect below
@@ -634,7 +763,8 @@ const Options: FC = () => {
           <Radio.Group
             onChange={(e) => {
               setPosition(e.target.value);
-              setStorage('position', e.target.value);
+              setStorage('position', e.target.value, false);
+              refreshContent();
             }}
             value={position}
           >
@@ -664,16 +794,36 @@ const Options: FC = () => {
     );
   };
 
+  const renderHeader = () => {
+    return (
+      <Space>
+        <Title level={5}>
+          This Extension Was Created And Is Supported By{' '}
+          <a
+            href="https://www.theimpeccablestocksoftware.com/free-trial"
+            target="_blank"
+            style={{ textDecoration: 'underlined' }}
+            rel="noreferrer"
+          >
+            The Impeccable Stock Software
+          </a>
+        </Title>
+      </Space>
+    );
+  };
   const renderBasic = () => {
     return (
-      <Space direction="vertical" size="middle" className="w-full">
-        {renderMarquee()}
-        {renderEnableExtension()}
-        {renderColor()}
-        {renderQuotes()}
-        {renderTypeBar()}
-        {renderAllWebsites()}
-      </Space>
+      <>
+        {renderHeader()}
+        <Space direction="vertical" size="middle" className="w-full">
+          {renderMarquee()}
+          {renderEnableExtension()}
+          {renderColor()}
+          {renderQuotes()}
+          {renderTypeBar()}
+          {renderAllWebsites()}
+        </Space>
+      </>
     );
   };
 

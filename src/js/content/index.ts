@@ -27,7 +27,13 @@ const contentLoad = () => {
             )) ||
           allwebsites === 'all'
         ) {
-          contentUtils.addMarquee(dropshadow, position);
+          contentUtils.removeMarquee();
+          setTimeout(() => {
+            contentUtils.addMarquee(dropshadow, position, 40);
+          }, 500);
+        } else {
+          //todo add remove
+          contentUtils.removeMarquee();
         }
       } else {
         contentUtils.removeMarquee();

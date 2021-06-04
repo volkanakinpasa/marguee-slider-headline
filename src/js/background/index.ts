@@ -7,6 +7,12 @@ import configJson from '../../defaultConfigs.json';
 const messageListener = (message: any, serder: any, callback: any) => {
   switch (message.type) {
     case 'refreshContent':
+      sendMessageToAllContentScript(message);
+      break;
+    case 'pause':
+      sendMessageToActiveContentScript(message);
+      break;
+    case 'resume':
       sendMessageToActiveContentScript(message);
       break;
   }
@@ -19,8 +25,16 @@ const sendMessageToRuntime = (message: any) => {
 const sendMessageToContentScript = (tabId: number, message: any) => {
   chrome.tabs.sendMessage(tabId, { ...message });
 };
-const sendMessageToActiveContentScript = (message: any) => {
+const sendMessageToAllContentScript = (message: any) => {
   chrome.tabs.query({}, function (tabs) {
+    tabs.forEach((tab: any) => {
+      sendMessageToContentScript(tab.id, { ...message });
+    });
+  });
+};
+
+const sendMessageToActiveContentScript = (message: any) => {
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     tabs.forEach((tab: any) => {
       sendMessageToContentScript(tab.id, { ...message });
     });

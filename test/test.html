@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <script src="jquery.min.js" type="text/javascript"></script>
+    <script src="jquery.marquee.min.js" type="text/javascript"></script>
+  </head>
+  <body>
+    <div
+      class="marquee"
+      style="width: 100%; overflow: hidden; border: 1px solid #ccc"
+    >
+      11234567898765432123456787654321234567876543 asdfghjk asdfghj asdfghj
+      asdfghj asdfgh asdfghj asdfghj asdfghj asdfghj asdfghj asdfghjkl asdfghjk
+      asdfghjasdfghjk asdfghj asdfghj asdfghj asdfgh asdfghj asdfghj asdfghj
+      asdfghj asdfghj asdfghjkl asdfghjk asdfghj
+    </div>
+    <script>
+      function startMarquee() {
+        $('.marquee').marquee({
+          //duration in milliseconds of the marquee
+          duration: 15000,
+          //gap in pixels between the tickers
+          gap: 50,
+          //time in milliseconds before the marquee will start animating
+          delayBeforeStart: 0,
+          //'left' or 'right'
+          direction: 'left',
+          //true or false - should the marquee be duplicated to show an effect of continues flow
+          duplicated: false,
+        });
+      }
+
+      startMarquee();
+    </script>
+  </body>
+</html>

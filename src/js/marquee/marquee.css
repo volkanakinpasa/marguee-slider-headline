@@ -1,6 +1,6 @@
 body {
-  font-family: '';
-  paddding: 0;
+  /* font-family: ''; */
+  padding: 0;
   margin: 0;
   overflow: hidden;
 }
@@ -9,9 +9,15 @@ body {
   overflow: hidden;
   white-space: nowrap;
   display: flex;
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  align-self: center;
 }
 .ticker {
-  padding: 0px 30px;
+  padding: 0px;
+  margin-right: 40px;
   width: 100%;
 }
 
@@ -22,6 +28,7 @@ body {
 
 .ticker span {
   padding: 0px 6px;
+
   display: flex;
   flex-direction: row;
   justify-items: center;
@@ -46,8 +53,6 @@ body {
   text-decoration: none;
 }
 
-body {
-}
 .ticker {
   display: flex;
 }
@@ -66,6 +71,7 @@ body {
 .ticker__item span {
   padding: 0 10px;
 }
+/* 
 @-moz-keyframes ticker {
   100% {
     transform: translateX(-100%);
@@ -85,4 +91,26 @@ body {
   100% {
     transform: translateX(-100%);
   }
+} */
+
+.marquee {
+  width: 100%;
+  overflow: hidden;
+  height: 30px;
+}
+
+.logo {
+  padding: 0 0 0 10px;
+  display: flex;
+  flex-direction: row;
+  justify-items: center;
+  align-items: center;
+  height: 30px;
+  width: 30px;
+}
+
+.logo img,
+.logo a {
+  height: 30px;
+  width: 30px;
 }

@@ -10,18 +10,17 @@
     "format": "prettier --write \"src/**/*.{js,jsx}\"",
     "lint-staged": "lint-staged",
     "commit": "git-cz",
-    "zip": "cd dist && zip -r paradify.zip ."
+    "zip": "cd dist && zip -r package.zip ."
   },
   "dependencies": {
     "antd": "^4.16.0",
     "array-move": "^3.0.1",
     "axios": "^0.21.1",
+    "jquery": "^3.6.0",
+    "jquery.marquee": "^1.6.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-shadow": "^19.0.2",
-    "react-sortable-hoc": "^2.0.0",
-    "react-ticker": "^1.2.2",
-    "to-string-loader": "^1.1.6"
+    "react-sortable-hoc": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
@@ -31,6 +30,7 @@
     "@types/chrome": "0.0.127",
     "@types/classnames": "^2.2.11",
     "@types/google.analytics": "0.0.41",
+    "@types/jquery": "^3.5.5",
     "@types/react": "^16.8.24",
     "@types/react-dom": "^16.0.5",
     "@types/webpack": "4.1.4",

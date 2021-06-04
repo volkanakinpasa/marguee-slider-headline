@@ -3,12 +3,16 @@
 }
 .container {
   width: 100%;
+  padding: 40px 5px;
 }
-.option-item {
-  max-width: 600px;
+.option-item-small {
+  width: 400px;
+}
+
+.option-item-large {
+  width: 600px;
 }
 .tab-item {
-  width: 600px;
 }
 .w-full {
   width: 100%;
