@@ -20,7 +20,8 @@
     "jquery.marquee": "^1.6.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-sortable-hoc": "^2.0.0"
+    "react-sortable-hoc": "^2.0.0",
+    "to-string-loader": "^1.1.6"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",

@@ -19,7 +19,7 @@ const config = {
       'background',
       'index.ts',
     ),
-    content: path.join(__dirname, '..', 'src', 'js', 'content', 'index.ts'),
+    content: path.join(__dirname, '..', 'src', 'js', 'content', 'index.tsx'),
     popup: path.join(__dirname, '..', 'src', 'js', 'popup', 'index.tsx'),
     options: path.join(__dirname, '..', 'src', 'js', 'options', 'index.tsx'),
     marquee: path.join(__dirname, '..', 'src', 'js', 'marquee', 'index.tsx'),
@@ -32,7 +32,12 @@ const config = {
         test: /\.css$/,
         exclude: /node_modules/,
         use: [
-          { loader: 'style-loader', options: { injectType: 'styleTag' } },
+          {
+            loader: 'style-loader',
+            options: {
+              injectType: 'styleTag',
+            },
+          },
           'css-loader',
           'postcss-loader',
         ],

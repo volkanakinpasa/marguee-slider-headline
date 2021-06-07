@@ -4,7 +4,9 @@ import {
   CACHE_STOCKS_EXPIRED_MS,
   MAX_STOCKS_TO_FETCH,
 } from '../utils/constants';
-import './marquee.css';
+import marqueeStyleToString from './marquee.shadowcss';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+// const marqueeStyleToString = require('./marquee.shadowcss').toString();
 import storageUtils from '../utils/storageUtils';
 import { Stock } from '../interfaces';
 import $ from 'jquery';
@@ -280,6 +282,7 @@ const Marquee: FC = () => {
   }, []);
   return (
     <>
+      <style type="text/css">{marqueeStyleToString}</style>
       {isReady && (
         <div style={style} className="finance-slider-marqueContainer">
           <div className="finance-slider-logo">
