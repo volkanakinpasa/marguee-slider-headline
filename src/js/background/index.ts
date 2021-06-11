@@ -27,13 +27,13 @@ const sendMessageToAllContentScript = (message: any) => {
   });
 };
 
-const sendMessageToActiveContentScript = (message: any) => {
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    tabs.forEach((tab: any) => {
-      sendMessageToContentScript(tab.id, { ...message });
-    });
-  });
-};
+// const sendMessageToActiveContentScript = (message: any) => {
+//   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+//     tabs.forEach((tab: any) => {
+//       sendMessageToContentScript(tab.id, { ...message });
+//     });
+//   });
+// };
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   messageListener(message, sender, sendResponse);

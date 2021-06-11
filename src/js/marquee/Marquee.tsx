@@ -284,7 +284,7 @@ const Marquee: FC = () => {
         <div style={style} className="finance-slider-marqueContainer">
           <div className="finance-slider-logo">
             <a
-              href="https://www.theimpeccablestocksoftware.com/free-trial"
+              href="https://www.theimpeccablestocksoftware.com/free-trial?utm_source=chrome-extension&utm_medium=logo&utm_campaign=free-trial"
               target="_blank"
               rel="noreferrer"
             >

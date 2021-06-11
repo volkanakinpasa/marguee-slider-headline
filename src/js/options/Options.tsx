@@ -121,6 +121,11 @@ const Options: FC = () => {
     storageUtils.setStorage(key, value);
     if (applyInsideMarquee) applyMarqueeRealTime();
   };
+
+  const removeStorage = (key: string) => {
+    storageUtils.removeStorage(key);
+  };
+
   const DragHandle = SortableHandle(() => (
     <span style={{ marginRight: '10px' }}>
       <VerticalAlignMiddleOutlined />
@@ -418,6 +423,7 @@ const Options: FC = () => {
                         setFavoriteStocks(stocks);
                         setStorage('favoritestocks', stocks);
                         openNotification('success', `${value} added!`, '');
+                        removeStorage('cacheexpiredatenow');
                       } else {
                         openNotification('error', 'Error!', data.message);
                       }
@@ -451,6 +457,7 @@ const Options: FC = () => {
                 );
                 setFavoriteStocks(itemsUpdated);
                 setStorage('favoritestocks', itemsUpdated);
+                removeStorage('cacheexpiredatenow');
               }}
               useDragHandle
             >
@@ -468,6 +475,7 @@ const Options: FC = () => {
                       );
                       setFavoriteStocks(tempData);
                       setStorage('favoritestocks', tempData);
+                      removeStorage('cacheexpiredatenow');
                     }}
                   />
                 ))}
@@ -800,7 +808,7 @@ const Options: FC = () => {
         <Title level={5}>
           This Extension Was Created And Is Supported By{' '}
           <a
-            href="https://www.theimpeccablestocksoftware.com/free-trial"
+            href="https://www.theimpeccablestocksoftware.com/free-trial?utm_source=chrome-extension&utm_medium=options&utm_campaign=free-trial"
             target="_blank"
             style={{ textDecoration: 'underlined' }}
             rel="noreferrer"

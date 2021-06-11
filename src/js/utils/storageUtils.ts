@@ -5,8 +5,13 @@ const setStorage = (key: string, value: any): void => {
   });
 };
 
+const removeStorage = (key: string): void => {
+  chrome.storage.sync.remove(key);
+};
+
 const storageUtils = {
   setStorage,
+  removeStorage,
 };
 
 export default storageUtils;

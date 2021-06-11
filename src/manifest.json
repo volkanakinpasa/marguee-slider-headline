@@ -3,8 +3,8 @@
   "name": "Stock Market Toolbar - Real Time Tracker",
   "short_name": "Stock Market Toolbar",
   "description": "Track Any Stock In Real Time Without Needing Another Tab",
-  "version": "8.1.1",
-  "permissions": ["activeTab", "tabs", "storage"],
+  "version": "1.0.0",
+  "permissions": ["tabs", "storage"],
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
